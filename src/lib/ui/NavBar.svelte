@@ -8,6 +8,7 @@
       <a class="navbar-item" href="/">Home</a>
       <a class="navbar-item" href="/categories">Categories</a>
       <a class="navbar-item" href="/pois">POIs</a>
+      <a class="navbar-item" href="/map">Map</a>
     </div>
     <div class="navbar-end">
       {#if loggedInUser.email}

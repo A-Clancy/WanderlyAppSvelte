@@ -87,6 +87,16 @@ export const poiService = {
     }
   },
 
+  async deletePOI(id: string): Promise<boolean> {
+  try {
+    const response = await axios.delete(`${this.baseUrl}/api/pois/${id}`);
+    return response.status === 204;
+  } catch (error) {
+    console.log("POI delete error:", error);
+    return false;
+  }
+},
+
   async addCategory(category: { name: string }, token: string): Promise<boolean> {
     try {
       const response = await axios.post(`${this.baseUrl}/api/categories`, category, {
@@ -109,5 +119,16 @@ export const poiService = {
       console.log("Failed to load categories:", error);
       return [];
     }
+  },
+
+    async deleteCategory(id: string): Promise<boolean> {
+    try {
+      const response = await axios.delete(`${this.baseUrl}/api/categories/${id}`);
+      return response.status === 204;
+    } catch (error) {
+      console.log("Category delete error:", error);
+      return false;
+    }
   }
+
 };
