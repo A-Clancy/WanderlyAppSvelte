@@ -22,7 +22,11 @@ export type POI = {
 
 export type Category = {
   name: string;
-  lat: number;
-  lng: number;
-  user: string; // user ID
+  _id: string;
 };
+
+
+export type NewCategory = {
+  name: string;
+};
+

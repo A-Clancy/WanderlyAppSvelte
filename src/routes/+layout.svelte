@@ -3,17 +3,24 @@
   import { poiService } from "$lib/services/poi-service";
   import Heading from "$lib/ui/Heading.svelte";
   import Menu from "$lib/ui/Menu.svelte";
+  import NavBar from "$lib/ui/NavBar.svelte";
   import { onMount } from "svelte";
+
+  let isReady = false;
 
   onMount(async () => {
     await poiService.restoreSession();
+    isReady = true;
   });
 </script>
 
-<div class="container">
-  {#if loggedInUser.email}
-    <Menu />
-    <Heading />
-  {/if}
-  <slot />
-</div>
+{#if isReady}
+  <NavBar />
+  <div class="container">
+    {#if loggedInUser.email}
+      <Menu />
+      <Heading />
+    {/if}
+    <slot />
+  </div>
+{/if}

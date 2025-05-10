@@ -33,7 +33,8 @@ export const poiService = {
           token: response.data.token,
           _id: response.data._id
         };
-        loggedInUser.set(session);
+        Object.assign(loggedInUser, session);
+        localStorage.setItem("wanderly-session", JSON.stringify(session));
         return session;
       }
       return null;
@@ -44,31 +45,69 @@ export const poiService = {
   },
 
   async restoreSession(): Promise<void> {
-    if (loggedInUser.token) {
-      axios.defaults.headers.common["Authorization"] = "Bearer " + loggedInUser.token;
+    const stored = localStorage.getItem("wanderly-session");
+    if (stored) {
+      const session = JSON.parse(stored);
+      Object.assign(loggedInUser, session);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + session.token;
+      console.log("Restored token from storage:", session.token);
+    } else {
+      console.log("No session found in localStorage");
     }
   },
 
   clearSession() {
     delete axios.defaults.headers.common["Authorization"];
-  },  
+    localStorage.removeItem("wanderly-session");
+    Object.assign(loggedInUser, { email: "", name: "", token: "", _id: "" });
+  },
+
+  async addPoi(poi: {
+    name: string;
+    description: string;
+    lat: number;
+    lng: number;
+    categoryId: string;
+  }): Promise<boolean> {
+    try {
+      const response = await axios.post(`${this.baseUrl}/api/pois`, poi);
+      return response.status === 200 || response.status === 201;
+    } catch (error) {
+      console.log("POI add error:", error);
+      return false;
+    }
+  },
 
   async getAllPOIs(): Promise<void> {
     try {
       const response = await axios.get(`${this.baseUrl}/api/pois`);
-      currentPOIs.set({ places: response.data });
+      currentPOIs.places = response.data;
     } catch (error) {
       console.log(error);
     }
   },
 
-  async addCategory(category: Category, token: string): Promise<boolean> {
+  async addCategory(category: { name: string }, token: string): Promise<boolean> {
     try {
-      const response = await axios.post(`${this.baseUrl}/api/categories`, category);
+      const response = await axios.post(`${this.baseUrl}/api/categories`, category, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
       return response.status === 200;
     } catch (error) {
-      console.log(error);
+      console.log("Category add error:", error);
       return false;
+    }
+  },
+
+  async getAllCategories(): Promise<Category[]> {
+    try {
+      const response = await axios.get(`${this.baseUrl}/api/categories`);
+      return response.data;
+    } catch (error) {
+      console.log("Failed to load categories:", error);
+      return [];
     }
   }
 };
