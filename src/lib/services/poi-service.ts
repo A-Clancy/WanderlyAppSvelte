@@ -8,9 +8,14 @@ export const poiService = {
   async signup(user: User): Promise<boolean> {
     try {
       const response = await axios.post(`${this.baseUrl}/api/users`, user);
+      console.log("Signup response:", response.data);
       return response.data.success === true;
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.log("Signup failed:", error.response?.data || error.message);
+      } else {
+        console.log("Signup failed with unknown error:", error);
+      }
       return false;
     }
   },

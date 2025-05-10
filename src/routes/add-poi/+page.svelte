@@ -1,21 +1,21 @@
 <script lang="ts">
   import { subTitle } from "$lib/runes.svelte";
   import Card from "$lib/ui/Card.svelte";
-  import DonateForm from "./POIForm.svelte";
-  import DonationList from "$lib/ui/POIList.svelte";
+  import POIForm from "./POIForm.svelte";
+  import POIList from "$lib/ui/POIList.svelte";
 
-  subTitle.text = "Make a Donation";
+  subTitle.text = "Add a Category";
 </script>
 
 <div class="columns">
   <div class="column">
-    <Card title="Donations to Date">
-      <DonationList />
+    <Card title="POIs to Date">
+      <POIList />
     </Card>
   </div>
   <div class="column">
-    <Card title="Please Donate">
-      <DonateForm />
+    <Card title="Add a POI">
+      <POIForm/>
     </Card>
   </div>
 </div>
