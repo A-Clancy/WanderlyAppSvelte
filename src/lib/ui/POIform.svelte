@@ -1,6 +1,6 @@
 <script lang="ts">
   import { poiService } from "$lib/services/poi-service";
-  import { currentCategories } from "$lib/runes.svelte";
+  import { currentCategories, loggedInUser } from "$lib/runes.svelte";
   import Coordinates from "$lib/ui/Coordinates.svelte";
 
   let name = "";
@@ -9,6 +9,7 @@
   let lng = -7.15242;
   let categoryId = "";
   let message = "";
+  let imageFile: File | null = null;
 
   async function addPoi() {
     if (!name || !categoryId) {
@@ -17,12 +18,32 @@
     }
 
     const poi = { name, description, lat, lng, categoryId };
-    const success = await poiService.addPoi(poi);
-    message = success
-      ? `POI '${name}' added successfully!`
-      : "POI not added - an error occurred";
-    console.log("Submitting POI:", { name, description, lat, lng, categoryId });
+    const created = await poiService.addPoi(poi);
 
+    if (created && imageFile) {
+      const formData = new FormData();
+      formData.append("images", imageFile);
+
+      try {
+        await fetch(`${poiService.baseUrl}/api/pois/${created._id}/images`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${loggedInUser.token}`
+          }
+        });
+        message = `POI '${name}' added successfully with image!`;
+      } catch (error) {
+        console.log("Image upload failed:", error);
+        message = `POI '${name}' added, but image upload failed.`;
+      }
+    } else {
+      message = created
+        ? `POI '${name}' added successfully!`
+        : "POI not added - an error occurred";
+    }
+
+    console.log("Submitting POI:", { name, description, lat, lng, categoryId });
   }
 </script>
 
@@ -52,6 +73,33 @@
   </div>
 
   <Coordinates bind:lat bind:lng />
+
+  <div class="field">
+    <label class="label" for="poi-image">POI Image</label>
+    <div class="control">
+      <input
+        id="poi-image"
+        type="file"
+        accept="image/*"
+        on:change={(e) => {
+          const target = e.target as HTMLInputElement;
+          if (target && target.files && target.files.length > 0) {
+            imageFile = target.files[0];
+          }
+        }}
+      />
+    </div>
+  </div>
+
+  {#if imageFile}
+    <div class="field mt-2">
+      <label class="label" for="image-preview">Image Preview</label>
+      <figure class="image is-128x128">
+        <!-- svelte-ignore a11y_img_redundant_alt -->
+        <img id="image-preview" src={URL.createObjectURL(imageFile)} alt="Preview of selected POI image" />
+      </figure>
+    </div>
+  {/if}
 
   <div class="field mt-4">
     <div class="control">

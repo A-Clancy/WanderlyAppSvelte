@@ -69,13 +69,13 @@ export const poiService = {
     lat: number;
     lng: number;
     categoryId: string;
-  }): Promise<boolean> {
+  }): Promise<POI | null> {
     try {
       const response = await axios.post(`${this.baseUrl}/api/pois`, poi);
-      return response.status === 200 || response.status === 201;
+      return response.data; 
     } catch (error) {
       console.log("POI add error:", error);
-      return false;
+      return null;
     }
   },
 
