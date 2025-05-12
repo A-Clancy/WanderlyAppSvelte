@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { Session, User, Category } from "$lib/types/placemark-types";
 import { currentPOIs, loggedInUser } from "$lib/runes.svelte";
+import type { POI } from "$lib/types/placemark-types";
 
 export const poiService = {
   baseUrl: "http://AClancy0222:3000",
@@ -78,12 +79,14 @@ export const poiService = {
     }
   },
 
-  async getAllPOIs(): Promise<void> {
+  async getAllPOIs(): Promise<POI[]> {
     try {
       const response = await axios.get(`${this.baseUrl}/api/pois`);
       currentPOIs.places = response.data;
+      return response.data; 
     } catch (error) {
       console.log(error);
+      return []; 
     }
   },
 

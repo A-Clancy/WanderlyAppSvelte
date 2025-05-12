@@ -1,34 +1,35 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { subTitle } from "$lib/runes.svelte";
+  import LeafletMap from "$lib/ui/LeafletMap.svelte";
+  import Card from "$lib/ui/Card.svelte";
   import { poiService } from "$lib/services/poi-service";
-  import { currentPOIs } from "$lib/runes.svelte";
+  import type { POI } from "$lib/types/placemark-types";
 
-  let mapContainer: HTMLDivElement;
+  subTitle.text = "Explore Wanderly POIs";
+
+  let map: LeafletMap;
 
   onMount(async () => {
-    await poiService.getAllPOIs();
+    const pois: POI[] = await poiService.getAllPOIs();
 
-    // Dynamically import Leaflet only in the browser
-    const L = await import("leaflet");
+    console.log("POIs received for map:", pois);
 
-    const map = L.map(mapContainer).setView([52.16, -7.15], 7);
+    pois.forEach((poi) => {
+      // Use correct field names: latitude and longitude
+      if (poi.latitude && poi.longitude) {
+        const popup = `<strong>${poi.name}</strong><br>${poi.description || ""}`;
+        map.addMarker(poi.latitude, poi.longitude, popup);
+      }
+    });
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    for (const poi of currentPOIs.places) {
-      L.marker([poi.lat, poi.lng])
-        .addTo(map)
-        .bindPopup(`<strong>${poi.name}</strong><br>${poi.description || ""}`);
+    const lastPoi = pois[pois.length - 1];
+    if (lastPoi && lastPoi.latitude && lastPoi.longitude) {
+      map.moveTo(lastPoi.latitude, lastPoi.longitude);
     }
   });
 </script>
 
-<section class="section">
-  <div class="container">
-    <h1 class="title">Map of POIs</h1>
-    <div bind:this={mapContainer} style="height: 500px;"></div>
-  </div>
-</section>
+<Card title="Map of POIs">
+  <LeafletMap height={60} bind:this={map} />
+</Card>

@@ -13,12 +13,14 @@ export type Session = {
 };
 
 export type POI = {
+  _id: string;
   name: string;
   description?: string;
-  lat: number;
-  lng: number;
-  _id: string;
+  latitude: number;
+  longitude: number;
+  categoryId?: string;
 };
+
 
 export type Category = {
   name: string;
