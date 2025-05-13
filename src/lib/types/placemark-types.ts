@@ -19,6 +19,7 @@ export type POI = {
   latitude: number;
   longitude: number;
   categoryId?: string;
+  imageUrls?: string[];
 };
 
 

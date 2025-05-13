@@ -1,10 +1,10 @@
 <script lang="ts">
   import { subTitle } from "$lib/runes.svelte";
   import Card from "$lib/ui/Card.svelte";
-  import POIForm from "./POIForm.svelte";
+  import POIForm from "$lib/ui/POIForm.svelte";
   import POIList from "$lib/ui/POIList.svelte";
 
-  subTitle.text = "Add a Category";
+  subTitle.text = "Add a POI";
 </script>
 
 <div class="columns">
@@ -15,7 +15,8 @@
   </div>
   <div class="column">
     <Card title="Add a POI">
-      <POIForm/>
+      <POIForm />
     </Card>
   </div>
 </div>
+// i think this age is redundant

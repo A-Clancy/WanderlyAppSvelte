@@ -14,13 +14,22 @@
   <p>No POIs found.</p>
 {:else}
   <div class="box">
-    <h2 class="title is-5">All POIs</h2>
+    <h2 class="title is-5">All My POIs</h2>
     <ul>
       {#each currentPOIs.places as poi}
-        <li class="mb-2">
+        <li class="mb-4">
           <strong>{poi.name}</strong>
           {#if poi.description} — {poi.description}{/if}
-          <button class="button is-small is-danger ml-2" on:click={() => deletePOI(poi._id)}>
+
+          {#if poi.imageUrls?.length}
+            <div class="mt-2">
+              <figure class="image is-128x128">
+                <img src={poi.imageUrls[0]} alt={`Image of ${poi.name}`} />
+              </figure>
+            </div>
+          {/if}
+
+          <button class="button is-small is-danger mt-1" on:click={() => deletePOI(poi._id)}>
             Delete
           </button>
         </li>
