@@ -132,6 +132,17 @@ export const poiService = {
       console.log("Category delete error:", error);
       return false;
     }
+  },
+
+  async deleteImage(poiId: string, imageIndex: number): Promise<boolean> {
+  try {
+    const response = await axios.delete(`${this.baseUrl}/api/pois/${poiId}/images/${imageIndex}`);
+    return response.status === 200;
+  } catch (error) {
+    console.log("Image delete error:", error);
+    return false;
   }
+}
+
 
 };

@@ -20,15 +20,32 @@
         <li class="mb-4">
           <strong>{poi.name}</strong>
           {#if poi.description} — {poi.description}{/if}
-
           {#if poi.imageUrls?.length}
             <div class="mt-2">
-              <figure class="image is-128x128">
-                <img src={poi.imageUrls[0]} alt={`Image of ${poi.name}`} />
-              </figure>
+              <div class="columns is-multiline">
+                {#each poi.imageUrls! as url, index}
+                  <div class="column is-narrow has-text-centered">
+                    <figure class="image is-128x128 mb-1">
+                      <img src={url} alt={`Image ${index + 1} of ${poi.name}`} />
+                    </figure>
+                    <button
+                      class="button is-small is-warning"
+                      on:click={async () => {
+                        const confirmed = confirm("Delete this image?");
+                        if (confirmed) {
+                          const success = await poiService.deleteImage(poi._id, index);
+                          if (success) {
+                            poi.imageUrls.splice(index, 1); // update UI 
+                          }
+                        }
+                      }}>
+                      Delete
+                    </button>
+                  </div>
+                {/each}
+              </div>
             </div>
           {/if}
-
           <button class="button is-small is-danger mt-1" on:click={() => deletePOI(poi._id)}>
             Delete
           </button>
