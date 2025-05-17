@@ -4,11 +4,16 @@
   import type { POI, Category } from "$lib/types/placemark-types";
   import type { Control, Map as LeafletMap } from "leaflet";
 
-  let { height = 80, pois = [], categories = [] } = $props(); // accepts props
+  // Props with defaults
+  let {
+    height = 80,
+    pois = [],
+    categories = [],
+    zoom = 8,
+    location = { lat: 53.2734, lng: -7.7783203 }
+  } = $props();
 
-  let id = "wanderly-map-id";
-  let location = { lat: 53.2734, lng: -7.7783203 };
-  let zoom = 8;
+  let id = `wanderly-map-id-${Math.random().toString(36).substring(2, 9)}`;
   let minZoom = 7;
   let activeLayer = "Terrain";
 
@@ -64,25 +69,10 @@
     control = L.control.layers(baseLayers, overlays, { position: "bottomleft" }).addTo(imap);
   });
 
-  // --- This function was previously adding markers directly to the map.
-  // --- It caused markers to persist when their category was toggled off.
-  // --- Leaving here in case I need it in the future. 
-
-  /*
-  export async function addMarker(lat: number, lng: number, popupText: string) {
-    const leaflet = await import("leaflet");
-    L = leaflet.default;
-    const marker = L.marker([lat, lng]).addTo(imap); // Problmem line - adds outside LayerGroup
-    const popup = L.popup({ autoClose: false, closeOnClick: false });
-    popup.setContent(popupText);
-    marker.bindPopup(popup);
-  }
-  */
-
   export async function moveTo(lat: number, lng: number) {
     const leaflet = await import("leaflet");
     L = leaflet.default;
-    imap.flyTo({ lat: lat, lng: lng });
+    imap.flyTo({ lat, lng });
   }
 </script>
 
