@@ -9,7 +9,7 @@
   let lng = -7.15242;
   let categoryId = "";
   let message = "";
-  let imageFile: File | null = null;
+  let imageFiles: File[] = [];
 
   async function addPoi() {
     if (!name || !categoryId) {
@@ -17,22 +17,34 @@
       return;
     }
 
-    const poi = { name, description, lat, lng, categoryId };
+    const poi = { name, description, latitude: lat, longitude: lng, categoryId };
     const created = await poiService.addPoi(poi);
 
-    if (created && imageFile) {
+    if (created && imageFiles.length > 0) {
       const formData = new FormData();
-      formData.append("images", imageFile);
+      imageFiles.forEach((file, i) => {
+        console.log(`Appending file ${i + 1}: ${file.name}`);
+        formData.append("images", file);
+      });
 
       try {
-        await fetch(`${poiService.baseUrl}/api/pois/${created._id}/images`, {
+        const response = await fetch(`${poiService.baseUrl}/api/pois/${created._id}/images`, {
           method: "POST",
           body: formData,
           headers: {
             Authorization: `Bearer ${loggedInUser.token}`
           }
         });
-        message = `POI '${name}' added successfully with image!`;
+
+        const result = await response.json();
+        console.log("Upload response:", result);
+
+        if (response.ok) {
+          message = `POI '${name}' added successfully with ${imageFiles.length} image(s)!`;
+        } else {
+          message = `POI '${name}' added, but image upload failed.`;
+        }
+
       } catch (error) {
         console.log("Image upload failed:", error);
         message = `POI '${name}' added, but image upload failed.`;
@@ -43,7 +55,7 @@
         : "POI not added - an error occurred";
     }
 
-    console.log("Submitting POI:", { name, description, lat, lng, categoryId });
+    console.log("Submitting POI:", { name, description, latitude: lat, longitude: lng, categoryId });
   }
 </script>
 
@@ -75,29 +87,35 @@
   <Coordinates bind:lat bind:lng />
 
   <div class="field">
-    <label class="label" for="poi-image">POI Image</label>
+    <label class="label" for="poi-image">POI Images</label>
     <div class="control">
       <input
         id="poi-image"
         type="file"
+        multiple
         accept="image/*"
         on:change={(e) => {
           const target = e.target as HTMLInputElement;
-          if (target && target.files && target.files.length > 0) {
-            imageFile = target.files[0];
+          if (target?.files?.length) {
+            imageFiles = Array.from(target.files);
           }
         }}
       />
     </div>
   </div>
 
-  {#if imageFile}
+  {#if imageFiles.length}
     <div class="field mt-2">
-      <label class="label" for="image-preview">Image Preview</label>
-      <figure class="image is-128x128">
-        <!-- svelte-ignore a11y_img_redundant_alt -->
-        <img id="image-preview" src={URL.createObjectURL(imageFile)} alt="Preview of selected POI image" />
-      </figure>
+      <p class="label">Preview</p>
+      <div class="columns is-multiline">
+        {#each imageFiles as file, index}
+          <div class="column is-narrow">
+            <figure class="image is-128x128">
+              <img src={URL.createObjectURL(file)} alt={`Preview ${index + 1}`} />
+            </figure>
+          </div>
+        {/each}
+      </div>
     </div>
   {/if}
 

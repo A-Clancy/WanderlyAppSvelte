@@ -63,13 +63,13 @@ export const poiService = {
     Object.assign(loggedInUser, { email: "", name: "", token: "", _id: "" });
   },
 
-  async addPoi(poi: {
-    name: string;
-    description: string;
-    lat: number;
-    lng: number;
-    categoryId: string;
-  }): Promise<POI | null> {
+    async addPoi(poi: {
+      name: string;
+      description: string;
+      latitude: number;
+      longitude: number;
+      categoryId: string;
+    }): Promise<POI | null> {
     try {
       const response = await axios.post(`${this.baseUrl}/api/pois`, poi);
       return response.data; 
