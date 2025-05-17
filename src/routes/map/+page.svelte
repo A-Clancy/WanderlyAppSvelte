@@ -5,6 +5,7 @@
   import Card from "$lib/ui/Card.svelte";
   import { poiService } from "$lib/services/poi-service";
   import type { POI } from "$lib/types/placemark-types";
+  import { currentPOIs, currentCategories } from "$lib/runes.svelte";
 
   subTitle.text = "Explore Wanderly POIs";
 
@@ -31,5 +32,5 @@
 </script>
 
 <Card title="Map of POIs">
-  <LeafletMap height={60} bind:this={map} />
+  <LeafletMap height={60} pois={currentPOIs.places} categories={currentCategories.categories} bind:this={map} />
 </Card>
