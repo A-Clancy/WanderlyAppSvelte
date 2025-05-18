@@ -8,7 +8,7 @@
     <div class="container">
       <div class="columns is-vcentered">
         <div class="column is-5">
-          <h1 class="title has-text-centered">Signup to Donation</h1>
+          <h1 class="title has-text-centered">Signup to Wanderly</h1>
           <SignupForm />
         </div>
         <div class="column is-6 is-offset-1">

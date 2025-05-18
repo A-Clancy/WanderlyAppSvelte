@@ -39,5 +39,6 @@
     <Message {message} />
   {/if}
   <UserCredentials bind:email bind:password />
+  <!-- svelte-ignore event_directive_deprecated -->
   <button on:click={login} class="button">Log In</button>
 </div>

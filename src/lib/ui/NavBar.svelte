@@ -15,6 +15,7 @@ console.log("Navbar sees loggedInUser:", loggedInUser);
 
 </script>
 
+<!-- svelte-ignore a11y_no_redundant_roles -->
 <nav class="navbar is-light mb-4" role="navigation" aria-label="main navigation">
   <div class="navbar-menu is-active">
     <div class="navbar-start">
