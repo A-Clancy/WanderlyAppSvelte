@@ -8,6 +8,7 @@ export type User = {
 
 export type Session = {
   name: string;
+  email: string;
   token: string;
   _id: string;
 };
@@ -22,14 +23,11 @@ export type POI = {
   imageUrls?: string[];
 };
 
-
 export type Category = {
   name: string;
   _id: string;
 };
 
-
 export type NewCategory = {
   name: string;
 };
-

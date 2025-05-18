@@ -31,9 +31,11 @@ export const poiService = {
         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
         const session: Session = {
           name: response.data.name,
+          email: response.data.email,
           token: response.data.token,
           _id: response.data._id
         };
+
         Object.assign(loggedInUser, session);
         localStorage.setItem("wanderly-session", JSON.stringify(session));
         return session;

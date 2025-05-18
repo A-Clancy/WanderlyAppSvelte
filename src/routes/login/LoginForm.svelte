@@ -3,6 +3,7 @@
   import { poiService } from "$lib/services/poi-service";
   import Message from "$lib/ui/Message.svelte";
   import UserCredentials from "$lib/ui/UserCredentials.svelte";
+  import { loggedInUser } from "$lib/runes.svelte";
 
   let email = $state("");
   let password = $state("");
@@ -12,6 +13,18 @@
     console.log(`Attempting to log in email: ${email}`);
     let session = await poiService.login(email, password);
     if (session) {
+      loggedInUser.email = session.email;
+      loggedInUser.name = session.name;
+      loggedInUser.token = session.token;
+      loggedInUser._id = session._id;
+
+      console.log("Updated loggedInUser:", {
+        email: loggedInUser.email,
+        name: loggedInUser.name,
+        token: loggedInUser.token,
+        _id: loggedInUser._id
+      });
+
       goto("/add-poi");
     } else {
       email = "";
