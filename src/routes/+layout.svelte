@@ -2,7 +2,6 @@
   import { loggedInUser } from "$lib/runes.svelte";
   import { poiService } from "$lib/services/poi-service";
   import Heading from "$lib/ui/Heading.svelte";
-  import Menu from "$lib/ui/Menu.svelte";
   import NavBar from "$lib/ui/NavBar.svelte";
   import { onMount } from "svelte";
 
@@ -18,7 +17,6 @@
   <NavBar />
   <div class="container">
     {#if loggedInUser.email}
-      <Menu />
       <Heading />
     {/if}
     <slot />
