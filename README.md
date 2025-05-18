@@ -1,38 +1,76 @@
-# sv
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+# Wanderly Frontend
 
-## Creating a project
+## Overview
 
-If you're seeing this, you've probably already done this step. Congrats!
+This is the SvelteKit-based frontend for Wanderly, a full-stack application that helps users manage and explore personal Points of Interest (POIs) across the world. The frontend is built with SvelteKit and communicates with a Hapi.js backend via a REST API secured with JWT.
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Features
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **JWT Login Integration**: Secure authentication linked to backend
+- **POI & Category Management**: Create and view user-specific POIs and group them by category
+- **Map View with Leaflet**: POIs are plotted on an interactive map
+- **Charting with Frappe**: Analytics on POI distribution by category
+- **Multiple Image Upload**: Cloudinary integration with drag-and-drop support
+- **Image Carousel Viewer**: Native Svelte component for viewing POI images
+- **Responsive UI**: Styled with Bulma, with partials and component reuse
+- **Runes (Writable Stores)**: Used for session and POI state management
 
-## Developing
+## Installation & Setup
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Prerequisites
 
-```bash
-npm run dev
+- [Node.js](https://nodejs.org/)
+- A backend server (e.g., https://wanderly-backend.glitch.me) with valid API routes
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Steps
 
-## Building
+1. **Clone the repository**:
+   ```sh
+   git clone https://github.com/YOUR-USERNAME/WanderlyAppSvelte.git
+   cd WanderlyAppSvelte
+   ```
 
-To create a production version of your app:
+2. **Install dependencies**:
+   ```sh
+   npm install
+   ```
 
-```bash
-npm run build
-```
+3. **Create `.env` file**:
+   ```env
+   VITE_BACKEND_URL=https://your-backend-url
+   ```
 
-You can preview the production build with `npm run preview`.
+4. **Start the development server**:
+   ```sh
+   npm run dev
+   ```
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Technologies Used
+
+- **Frontend**: SvelteKit, Vite
+- **Styling**: Bulma
+- **Maps**: Leaflet
+- **Charts**: Frappe Charts
+- **State**: Svelte stores (`writable`)
+- **Images**: Cloudinary + native file inputs
+- **Authentication**: JWT via localStorage
+
+## Roadmap
+
+- Fix POI filtering (user-specific scoping)
+- Add logout button
+- Improve error handling and input feedback
+- SSR implementation for select routes
+
+## Git Branching
+
+| Branch                | Purpose                                  |
+|-----------------------|------------------------------------------|
+| `main`               | Stable release branch                    |
+| `feature/image-ui`   | Carousel and image management work       |
+| `feature/maps`       | Leaflet map implementation               |
+
+## License
+
+MIT
