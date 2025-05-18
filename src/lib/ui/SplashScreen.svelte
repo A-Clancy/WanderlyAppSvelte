@@ -5,7 +5,7 @@
       <div class="columns is-vcentered">
         <div class="column is-5">
           <figure class="image">
-            <img class="object-fit" src="/homer2.png" alt="homer" />
+            <img class="object-fit" src="/logo.png" alt="Wanderly Logo" />
           </figure>
         </div>
         <div class="column is-6 is-offset-1">

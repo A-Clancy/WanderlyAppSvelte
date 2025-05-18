@@ -21,7 +21,7 @@
     });
 
     if (success) {
-      goto("/add-poi");
+      goto("/map");
     } else {
       message = "Error trying to sign up";
     }

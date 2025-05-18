@@ -4,7 +4,7 @@
   import LeafletMap from "$lib/ui/LeafletMap.svelte";
   import type { POI } from "$lib/types/placemark-types";
 
-  subTitle.text = "Explore Wanderly POIs";
+  subTitle.text = "beyond the map";
 
   let userLocation = { lat: 0, lng: 0 };
   let locationReady = false;

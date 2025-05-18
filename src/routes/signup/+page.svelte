@@ -13,7 +13,7 @@
         </div>
         <div class="column is-6 is-offset-1">
           <figure class="image is-4by3">
-            <img class="object-fit" src="/homer3.png" alt="homer" />
+            <img class="object-fit" src="/logo.png" alt="Wanderly Logo" />
           </figure>
         </div>
       </div>

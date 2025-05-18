@@ -25,7 +25,7 @@
         _id: loggedInUser._id
       });
 
-      goto("/add-poi");
+      goto("/map");
     } else {
       email = "";
       password = "";
