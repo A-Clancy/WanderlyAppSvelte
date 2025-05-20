@@ -4,7 +4,7 @@ import { currentPOIs, loggedInUser } from "$lib/runes.svelte";
 import type { POI } from "$lib/types/placemark-types";
 
 export const poiService = {
-  baseUrl: "http://AClancy0222:3000",
+  baseUrl: import.meta.env.VITE_API_URL,
 
   async signup(user: User): Promise<boolean> {
     try {
