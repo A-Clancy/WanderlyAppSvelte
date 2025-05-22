@@ -19,4 +19,4 @@
     </Card>
   </div>
 </div>
-// i think this age is redundant
+// i think this page is redundant
