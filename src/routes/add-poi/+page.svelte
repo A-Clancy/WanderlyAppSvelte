@@ -1,7 +1,7 @@
 <script lang="ts">
   import { subTitle } from "$lib/runes.svelte";
   import Card from "$lib/ui/Card.svelte";
-  import POIForm from "$lib/ui/POIForm.svelte";
+  import POIForm from "$lib/ui/temp-poi-form.svelte";
   import POIList from "$lib/ui/POIList.svelte";
 
   subTitle.text = "Add a POI";

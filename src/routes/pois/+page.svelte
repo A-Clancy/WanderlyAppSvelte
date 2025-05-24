@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { poiService } from "$lib/services/poi-service";
   import { currentCategories } from "$lib/runes.svelte";
-  import POIForm from "$lib/ui/POIForm.svelte";
+  import POIForm from "$lib/ui/temp-poi-form.svelte";
   import POIList from "$lib/ui/POIList.svelte";
 
   onMount(async () => {
